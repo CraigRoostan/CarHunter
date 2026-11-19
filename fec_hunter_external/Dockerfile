@@ -9,11 +9,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# The SQLite store lives on a volume so the seen-listings survive redeploys.
+# The SQLite store lives under /app/data. On Railway, mount a Railway Volume at /app/data
+# so the seen-listings survive redeploys.
 ENV HUNTER_DB=/app/data/hunter.sqlite3
 ENV BROWSER_HEADLESS=true
 ENV PYTHONUNBUFFERED=1
-VOLUME ["/app/data"]
 
 # The loop rewrites /app/data/collector.heartbeat at the start of every cycle. A file
 # older than fifteen minutes means the process is alive but stuck, so the orchestrator
