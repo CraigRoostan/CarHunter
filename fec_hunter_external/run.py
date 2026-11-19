@@ -62,6 +62,9 @@ def main() -> int:
         return 1
 
     lock_path = os.path.join(os.path.dirname(os.path.abspath(env.db_path)) or '.', 'collector.lock')
+from pathlib import Path
+
+Path(lock_path).parent.mkdir(parents=True, exist_ok=True)
     if not acquire_lock(lock_path):
         logging.error('Another collector is already running against this database.')
         return 1
