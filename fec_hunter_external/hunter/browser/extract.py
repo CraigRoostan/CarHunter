@@ -16,7 +16,7 @@ import re
 from datetime import datetime
 from html import unescape
 from typing import Any, Dict, List, Optional
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from ..normalise import match_area, parse_title, strip_tags
 
@@ -266,7 +266,7 @@ def extract_cards(html: str, base_url: str, profile: Optional[Dict[str, Any]] = 
 
     for match in ANCHOR_RE.finditer(html):
         attrs = _attrs(match.group(1))
-        href = attrs.get('href') or ''
+        href = unescape(attrs.get('href') or '')
         id_match = re.search(pattern, href)
         if not id_match:
             continue
@@ -291,8 +291,15 @@ def extract_cards(html: str, base_url: str, profile: Optional[Dict[str, Any]] = 
         img = IMG_RE.search(inner)
         if img:
             image = _attrs(img.group(0)).get('src', '')
-        if image and not image.startswith('http'):
+        # Saved browser pages often use local ./..._files/ paths. These are not
+        # publicly fetchable images; don't turn them into fake Facebook URLs.
+        image = unescape(image)
+        if image and image.startswith('//'):
+            image = 'https:' + image
+        elif image and image.startswith('/'):
             image = urljoin(base_url, image)
+        elif image and not image.startswith(('http://', 'https://')):
+            image = ''
 
         area = match_area(text, areas or [])
 
