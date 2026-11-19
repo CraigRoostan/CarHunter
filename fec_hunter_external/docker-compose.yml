@@ -1,0 +1,9 @@
+services:
+  collector:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - collector_data:/app/data
+volumes:
+  collector_data:
