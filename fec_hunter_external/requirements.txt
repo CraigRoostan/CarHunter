@@ -1,1 +1,8 @@
-requests>=2.32,<3
+requests>=2.31,<3
+
+# Must match the Playwright version in the Docker base image.
+playwright==1.48.0
+
+# Photographs are decoded, bounded and re-encoded before upload, so an error page or a
+# corrupt image is never stored as a vehicle photograph.
+Pillow>=10.0,<12

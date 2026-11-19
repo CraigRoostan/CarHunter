@@ -1,9 +1,20 @@
+# One always-on collector. Restart policies and the health check below are what keep it
+# running unattended: Docker restarts the container if it exits, and the health check
+# restarts it if the scan loop stops making progress.
 services:
-  collector:
+  hunter:
     build: .
+    container_name: fec-hunter
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - .env
     volumes:
-      - collector_data:/app/data
+      - hunter-data:/app/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
 volumes:
-  collector_data:
+  hunter-data:

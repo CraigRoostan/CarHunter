@@ -1,0 +1,1 @@
+"""Browser collection: extraction, profiles and the Playwright session."""

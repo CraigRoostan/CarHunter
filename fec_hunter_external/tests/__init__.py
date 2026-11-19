@@ -1,0 +1,1 @@
+"""Collector test suite. Run from the collector folder: python -m unittest discover -s tests -t ."""
