@@ -13,7 +13,7 @@ COPY . .
 ENV HUNTER_DB=/app/data/hunter.sqlite3
 ENV BROWSER_HEADLESS=true
 ENV PYTHONUNBUFFERED=1
-VOLUME ["/app/data"]
+
 
 # The loop rewrites /app/data/collector.heartbeat at the start of every cycle. A file
 # older than fifteen minutes means the process is alive but stuck, so the orchestrator
