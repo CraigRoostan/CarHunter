@@ -84,7 +84,7 @@ class Env:
     def __init__(self) -> None:
         self.base44_url = (os.environ.get('BASE44_URL') or 'https://fasteasycar.base44.app').rstrip('/')
         self.ingest_key = (os.environ.get('INGEST_KEY') or '').strip()
-        self.db_path = os.environ.get('HUNTER_DB') or os.path.join('data', 'hunter.sqlite3')
+        self.db_path = os.environ.get('HUNTER_DB') or os.environ.get('DB_PATH') or os.path.join('data', 'hunter.sqlite3')
         self.log_level = (os.environ.get('LOG_LEVEL') or 'INFO').upper()
         self.run_once = (os.environ.get('RUN_ONCE') or '').lower() in ('1', 'true', 'yes')
         # How often an idle collector re-reads the dashboard while it has nothing to scan.
