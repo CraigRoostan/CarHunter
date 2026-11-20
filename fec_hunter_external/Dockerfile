@@ -1,6 +1,6 @@
 # Playwright's own image: Chromium and its system libraries are already installed, which
 # is what makes the browser collector deployable without a build step of its own.
-FROM mcr.microsoft.com/playwright/python:v1.48.0-jammy
+FROM mcr.microsoft.com/playwright/python:v1.65.2-noble
 
 WORKDIR /app
 
