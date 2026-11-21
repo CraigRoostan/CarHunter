@@ -1,6 +1,6 @@
-"""What a source has to provide.
+"""Marketplace source contracts and normalised listing records.
 
-A source turns a marketplace's listings into `Listing` objects. Everything else, the
+A source turns a marketplace's listings into Listing objects. Everything else, the
 scheduling, deduplication, retries and ingest, is shared and source-agnostic.
 """
 
@@ -29,6 +29,7 @@ class Listing:
     image_urls: List[str] = field(default_factory=list)
     posted_at: str = ''
     seller_type: str = 'unknown'
+    seller_phone: str = ''
     sample: bool = False
 
     def payload(self) -> Dict[str, Any]:
@@ -49,6 +50,7 @@ class Listing:
             'image_urls': self.image_urls[:12],
             'posted_at': self.posted_at,
             'seller_type': self.seller_type,
+            'seller_phone': self.seller_phone,
             'is_sample': self.sample,
         }
         return {key: value for key, value in data.items() if value not in (None, '', [])}
@@ -90,5 +92,6 @@ def listing_from_record(source_key: str, record: Dict[str, Any],
         image_urls=[url for url in (record.get('image_urls') or []) if isinstance(url, str)][:12],
         posted_at=str(record.get('posted_at') or ''),
         seller_type=str(record.get('seller_type') or 'unknown'),
+        seller_phone=str(record.get('seller_phone') or ''),
         sample=sample,
     )
